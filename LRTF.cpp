@@ -1,29 +1,41 @@
-// code to apply LRTF
-for(i=0;i<n;i++)
-    {
-        pos=i; 
-        for(j=i+1;j<n;j++)
-        {
-            if(burst_time[j]>burst_time[pos])
-                pos=j;
-        }
-  
-        temp=burst_time[i];
-        burst_time[i]=burst_time[pos];
-        burst_time[pos]=temp;
-  
-        temp=process[i];
-        process[i]=process[pos];
-        process[pos]=temp;
-    }
-  //First process has 0 waiting time 
-    waiting_time[0]=0;           
-    //calculate waiting time
-    for(i=1;i<n;i++)
-    {
-        waiting_time[i]=0;
-        for(j=0;j<i;j++)
-            waiting_time[i]+=burst_time[j];
-  
-        total+=waiting_time[i];
-    }
+// class for round robin
+class roundR
+{
+	public:
+		void Search1(int pnt,int tm)
+		{
+			for(int i=pnt+1;i<n;i++)
+			{
+				if(arrival[i]<=tm)
+				{
+					rqi[noe]=i+1;
+					noe++;
+				}
+			}
+		}
+		void Search2(int pnt, int tm)
+		{
+			for(int i=pnt+1;i<n;i++)
+			{
+				//---CheckQue
+				int fl=0;
+				for(j=0;j<noe;j++)
+				{
+					if(rqi[j]==i+1)
+					{
+						fl++;
+					}
+				}
+				if(arrival[i]<=tm && fl==0 && btm[i]!=0)
+				{
+					rqi[noe]=i+1;
+					noe++;
+				}
+			}
+		}
+		void AddQue(int pnt)
+		{
+			rqi[noe]=pnt+1;
+			noe++;
+		}//void
+}rr;
